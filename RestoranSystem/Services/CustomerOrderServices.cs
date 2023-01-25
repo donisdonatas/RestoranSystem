@@ -83,8 +83,10 @@ namespace RestoranSystem.Services
                 if (MealType != menuLine.MealType)
                 {
                     MealType = menuLine.MealType;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"{menuLine.MealType}:");
                     ++NumericKey;
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine($"[{NumericKey}] {menuLine.MealName} - {menuLine.MealPrice}");
                     
                 }
@@ -112,10 +114,11 @@ namespace RestoranSystem.Services
                 Console.ForegroundColor = ConsoleColor.White;
                 InputLine = Console.ReadLine();
                 _orderList.Add(InputLine);
+                object[] FullOrder = Converter.ConvertListStringToListInt(_orderList);
+                ValidateOrder(FullOrder);
                 IsOrderComplete = !AddAnotherLine();
             }
-            object[] FullOrder = Converter.ConvertListStringToListInt(_orderList);
-            ValidateOrder(FullOrder);
+            
         }
 
         protected void ValidateOrder(object[] Lists)
@@ -130,7 +133,8 @@ namespace RestoranSystem.Services
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Blogai įvesta reikšmė: {str}");
                 }
-                if(AddAnotherLine()) SelectMenuItems();
+                //if(AddAnotherLine()) SelectMenuItems();
+                //FailedList.Clear();
             }
         }
 
@@ -164,7 +168,7 @@ namespace RestoranSystem.Services
             SQLiteServices.WriteOrderToDB(TableId, Order);
             string AcceptOrder = $"UPDATE Tables SET isOrderAccepted=1 WHERE TableID={TableId};";
             SQLiteServices.UpdateSQLTable(AcceptOrder);
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Užsakymas priimtas.");
         }
 

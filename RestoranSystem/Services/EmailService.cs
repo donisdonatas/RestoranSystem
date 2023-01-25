@@ -10,13 +10,13 @@ namespace RestoranSystem.Services
 {
     public class EmailService
     {
-        public void SendEmail(string reportContext, string recipientsEmail)
+        public void SendEmail(string reportContext, MailAddress recipientsEmail)
         {
 
             try
             {
                 var fromAddress = new MailAddress("donisdonatas@gmail.com", "Donatas");
-                var toAddress = new MailAddress(recipientsEmail, "Client Name");
+                var toAddress = recipientsEmail;
                 const string fromPassword = "oqdtnnytijhqtowt";
                 const string subject = "Restorano sąskaita";
 

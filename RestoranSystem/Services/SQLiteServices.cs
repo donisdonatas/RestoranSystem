@@ -138,7 +138,7 @@ namespace RestoranSystem.Services
 
             List<AvailableTable> ReservedSeats = new List<AvailableTable>();
             SQLiteDataReader SQLiteReader;
-            SQLCommand.CommandText = $"SELECT DISTINCT Tables.TableID, OccupiedSeats, AccountingID FROM Tables JOIN Orders ON Orders.TableID=Tables.TableID WHERE isOrderAccepted=1 AND isPaid=0;";
+            SQLCommand.CommandText = $"SELECT DISTINCT Tables.TableID, OccupiedSeats, AccountingID FROM Tables JOIN Orders ON Tables.TableID=Orders.TableID WHERE isOrderAccepted=1 AND isPaid=0;";
             SQLiteReader = SQLCommand.ExecuteReader();
 
             while (SQLiteReader.Read())
@@ -240,9 +240,12 @@ namespace RestoranSystem.Services
             return ClientID;
         }
 
-        public static void WriteToSQLDB(string commandString)
+        public static void WriteToSQLiteDB(string commandString)
         {
-
+            using SQLiteConnection ConnectionToDatabase = CreateConnection();
+            using SQLiteCommand SQLCommand = ConnectionToDatabase.CreateCommand();
+            SQLCommand.CommandText = commandString;
+            SQLCommand.ExecuteNonQuery();
         }
     }
 }

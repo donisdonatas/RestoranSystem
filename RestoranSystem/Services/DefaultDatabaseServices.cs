@@ -177,7 +177,7 @@ namespace RestoranSystem.Services
                                                         $"AccountingID INTEGER, " +
                                                         $"TableID INTEGER, " +
                                                         $"MealID INTEGER, " +
-                                                        $"isPaid INTEGER);";
+                                                        $"isPaid INTEGER DEFAULT 0);";
                 SQLCommand.ExecuteNonQuery();
             }
         }

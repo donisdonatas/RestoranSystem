@@ -20,7 +20,7 @@ namespace RestoranSystem.Model
             Console.WriteLine("[1] Klientų priėmimas / staliuko rezervavimas");
             Console.WriteLine("[2] Užsakymo priėmimas");
             Console.WriteLine("[3] Atsiskaitymo priėmimas");
-            Console.WriteLine("[4] Ataskaitų menu");
+            Console.WriteLine("[0] Išeiti iš programos");
 
             int MenuChoice = InputValidation.ValidateInput(4);
             OpenMenuByPrimaryChoice(MenuChoice);
@@ -45,13 +45,14 @@ namespace RestoranSystem.Model
                         CustomerCheckoutServices Checkout = new CustomerCheckoutServices();
                         Checkout.InitializeCheckout();
                         break;
-                    case 4:
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Ataskaitų menu");
-                        break;
+                    //case 4:
+                    //    Console.ForegroundColor = ConsoleColor.Green;
+                    //    Console.WriteLine("Ataskaitų menu");
+                    //    break;
                     default:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Error");
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("Viso gero.");
+                        Environment.Exit(0);
                         break;
                 }
             }

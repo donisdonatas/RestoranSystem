@@ -1,4 +1,5 @@
 ﻿using RestoranSystem.Model;
+using RestoranSystem.Reports;
 using RestoranSystem.Struct;
 using RestoranSystem.Utilities;
 using System;
@@ -7,6 +8,7 @@ using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace RestoranSystem.Services
@@ -57,8 +59,8 @@ namespace RestoranSystem.Services
                 IsCheckNeed = AskCheckNeed();
                 //ShowTotalPaidValue();
                 CompleteCheckout();
-                Menu.BackToMainMenu();
             }
+            Menu.BackToMainMenu();
         }
 
         protected int SelectOrderedTable()
@@ -113,6 +115,7 @@ namespace RestoranSystem.Services
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Įveskite email:");
+            //MailAddress? ClientEmail;
             bool isValidEmail = false;
             Exception? err = null;
             while(!isValidEmail)
@@ -120,7 +123,7 @@ namespace RestoranSystem.Services
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    MailAddress ClientEmail = new MailAddress(Console.ReadLine());
+                    ClientEmail = new MailAddress(Console.ReadLine());
                 }
                 catch (Exception ex)
                 {
@@ -134,6 +137,7 @@ namespace RestoranSystem.Services
                     {
                         isValidEmail = true;
                         WriteEmailToDB(ClientEmail);// Čia reikėtų įrašyti email į duomenų bazę??
+                        SendBillByMail();
                     }
                 }
             }
@@ -170,8 +174,8 @@ namespace RestoranSystem.Services
 
         private void WriteEmailToDB(MailAddress email)
         {
-            string WriteString = $"INSERT INTO ClientsData (Mail) VALUES ({email});";
-            SQLiteServices.WriteToSQLDB(WriteString);
+            string WriteString = $"INSERT INTO ClientsData (Mail) VALUES ('{email}');";
+            SQLiteServices.WriteToSQLiteDB(WriteString);
         }
 
         private int GetClientId()
@@ -186,9 +190,12 @@ namespace RestoranSystem.Services
 
         protected void CompleteCheckout()
         {
+            //Console.WriteLine($"UPDATE Orders SET isPaid=1 WHERE TableID={TableId} AND isPaid=0;");
+            //Console.WriteLine($"UPDATE Tables SET isReserved=0, OccupiedSeats=0, isOrderAccepted=0 WHERE TableID={TableId};");
+            //Console.WriteLine($"UPDATE Accounting SET Time='{DateTime.Now:HH:mm}', Value={Converter.ConvertDecimalToReal(ShowTotalPaidValue())}, SendRaport={IsCheckNeed}, ClientID={GetClientId()} WHERE AccountingID={GetAccountingID()};");
             string OrdersUpdateString = $"UPDATE Orders SET isPaid=1 WHERE TableID={TableId} AND isPaid=0;";
             string TablesUpdateString = $"UPDATE Tables SET isReserved=0, OccupiedSeats=0, isOrderAccepted=0 WHERE TableID={TableId};";
-            string AccountingUpdateString = $"UPDATE Accounting SET Time={DateTime.Now:HH:mm}, Value={Converter.ConvertDecimalToReal(ShowTotalPaidValue())}, SendRaport={IsCheckNeed}, {GetClientId()} WHERE AccountingID={GetAccountingID()};";
+            string AccountingUpdateString = $"UPDATE Accounting SET Time='{DateTime.Now:HH:mm}', Value={Converter.ConvertDecimalToReal(ShowTotalPaidValue())}, SendRaport={IsCheckNeed}, ClientID={GetClientId()} WHERE AccountingID={GetAccountingID()};";
             SQLiteServices.UpdateSQLTable(OrdersUpdateString);
             SQLiteServices.UpdateSQLTable(TablesUpdateString);
             SQLiteServices.UpdateSQLTable(AccountingUpdateString);
@@ -198,6 +205,13 @@ namespace RestoranSystem.Services
             // ++Table lentelėje reikia updeitinti isReserved=0, OccupiedSeats=0, isOrderAccepted=0
             // Accouting reikia įrašyti Value=TotalPaid, beje dar SendReport, ir ClientID
             // Jei SendReport=true, tada dar į ClientsInfo įrašyti ClientMail ir galiausiai padaryti HTML reportą ir nusiųsti šiuo adresu.
+        }
+
+        protected void SendBillByMail()
+        {
+            HtmlBill GenerateHtmlBill = new HtmlBill();
+            EmailService SendMail = new EmailService();
+            SendMail.SendEmail(GenerateHtmlBill.generateHTMLraport(GetOrderBill()), ClientEmail);
         }
     }
 }
