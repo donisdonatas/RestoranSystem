@@ -1,18 +1,11 @@
 ﻿using RestoranSystem.Model;
 using RestoranSystem.Struct;
 using RestoranSystem.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 
 namespace RestoranSystem.Services
 {
     public class CustomerReceptionServices
     {
-        //public int NumberOfCustomers { get; set; }
         public void InitializeReception()
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -81,12 +74,6 @@ namespace RestoranSystem.Services
             IEnumerable<AvailableTable> TablesForOrder = availableTables
                                                             .Where(availableSeats => availableSeats.Seats - numberOfCustomers >= 0)
                                                             .OrderBy(availableSeats => availableSeats.Seats - numberOfCustomers >= 0);
-
-            //foreach(AvailableTable table in TablesForOrder)
-            //{
-            //    Console.ForegroundColor = ConsoleColor.Blue;
-            //    Console.WriteLine($"Table ID: {table.TableID} | Available Seats: {table.Seats}");
-            //}
             return TablesForOrder.FirstOrDefault();
         }
 

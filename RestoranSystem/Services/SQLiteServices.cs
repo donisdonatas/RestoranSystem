@@ -1,19 +1,11 @@
-﻿using RestoranSystem.ENum;
-using RestoranSystem.Model;
-using RestoranSystem.Struct;
-using System;
-using System.Collections.Generic;
+﻿using RestoranSystem.Struct;
 using System.Data.SQLite;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestoranSystem.Services
 {
     public static class SQLiteServices
     {
-
         public static SQLiteConnection CreateConnection()
         {
             SQLiteConnection SQLiteConn = new SQLiteConnection("Data Source = restaurant.db; Version = 3; New = True; Compress = True;");
@@ -100,15 +92,6 @@ namespace RestoranSystem.Services
             SQLCommand.ExecuteNonQuery();
         }
 
-        //public static void ReserveTable(int tableID, int customers)
-        //{
-        //    using SQLiteConnection ConnectionToDatabase = CreateConnection();
-        //    using SQLiteCommand SQLCommand = ConnectionToDatabase.CreateCommand();
-
-        //    SQLCommand.CommandText = $"UPDATE Tables SET isReserved=1, OccupiedSeats={customers} WHERE TableID={tableID};";
-        //    SQLCommand.ExecuteNonQuery();
-        //}
-
         public static List<MenuLine> GetRestaurantMenu()
         {
             using SQLiteConnection ConnectionToDatabase = CreateConnection();
@@ -160,21 +143,6 @@ namespace RestoranSystem.Services
             SQLCommand.CommandText = $"INSERT INTO Accounting (Date) VALUES ('{DateTime.Today:yyyy-MM-dd}');";
             SQLCommand.ExecuteNonQuery();
         }
-
-        //public static int SelectLastAccountingID()
-        //{
-        //    using SQLiteConnection ConnectionToDatabase = CreateConnection();
-        //    using SQLiteCommand SQLCommand = ConnectionToDatabase.CreateCommand();
-        //    SQLiteDataReader SQLiteReader;
-        //    SQLCommand.CommandText = $"SELECT MAX(AccountingID) FROM Accounting;";
-        //    SQLiteReader = SQLCommand.ExecuteReader();
-        //    int AccountingID = 0;
-        //    while (SQLiteReader.Read())
-        //    {
-        //        AccountingID = Convert.ToInt32(SQLiteReader[0]);
-        //    }
-        //    return AccountingID;
-        //}
 
         public static void WriteOrderToDB(int tableId, List<int> order)
         {

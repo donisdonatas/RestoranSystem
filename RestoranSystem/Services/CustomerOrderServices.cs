@@ -1,13 +1,6 @@
 ﻿using RestoranSystem.Model;
 using RestoranSystem.Struct;
 using RestoranSystem.Utilities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestoranSystem.Services
 {
@@ -33,14 +26,7 @@ namespace RestoranSystem.Services
             {
                 GiveCustomersMenu();
                 CompleteOrder();
-                //PrintOrder();
             }
-            //else
-            //{
-            //    Console.ForegroundColor = ConsoleColor.Magenta;
-            //    Console.WriteLine("Nėra staliukų laukiančių užsakymo priėmimo.");
-
-            //}
             SystemMenu Menu = new SystemMenu();
             Menu.BackToMainMenu();
         }
@@ -118,7 +104,6 @@ namespace RestoranSystem.Services
                 ValidateOrder(FullOrder);
                 IsOrderComplete = !AddAnotherLine();
             }
-            
         }
 
         protected void ValidateOrder(object[] Lists)
@@ -133,8 +118,6 @@ namespace RestoranSystem.Services
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Blogai įvesta reikšmė: {str}");
                 }
-                //if(AddAnotherLine()) SelectMenuItems();
-                //FailedList.Clear();
             }
         }
 
@@ -148,20 +131,6 @@ namespace RestoranSystem.Services
             return Converter.ConvertToBool(NumericKey, 1);
         }
 
-        //protected void CheckAnswer(int key)
-        //{
-        //    switch(key)
-        //    {
-        //        case 1: 
-        //            SelectMenuItems();
-        //            break;
-        //        case 2:
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-
         protected void CompleteOrder()
         {
             SQLiteServices.GenerateNewAccountingID();
@@ -170,14 +139,6 @@ namespace RestoranSystem.Services
             SQLiteServices.UpdateSQLTable(AcceptOrder);
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Užsakymas priimtas.");
-        }
-
-        protected void PrintOrder()
-        {
-            foreach(int m in Order)
-            {
-                // Paliekam neužbaigtą
-            }
         }
     }
 }

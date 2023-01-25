@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestoranSystem.Services
 {
@@ -12,7 +7,6 @@ namespace RestoranSystem.Services
     {
         public void SendEmail(string reportContext, MailAddress recipientsEmail)
         {
-
             try
             {
                 var fromAddress = new MailAddress("donisdonatas@gmail.com", "Donatas");

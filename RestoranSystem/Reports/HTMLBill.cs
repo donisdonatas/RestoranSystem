@@ -1,11 +1,4 @@
 ﻿using RestoranSystem.Struct;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestoranSystem.Reports
 {

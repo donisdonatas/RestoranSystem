@@ -114,22 +114,6 @@ namespace RestoranSystem.Services
             }
         }
 
-        //internal void CreateOrderGroupsTable()
-        //{
-        //    using SQLiteConnection ConnectionToDatabase = SQLiteServices.CreateConnection();
-        //    using SQLiteCommand SQLCommand = ConnectionToDatabase.CreateCommand();
-        //    SQLCommand.CommandText = $"SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='OrderGroups';";
-        //    bool isTableExist = Convert.ToBoolean(SQLCommand.ExecuteScalar());
-        //    if (!isTableExist)
-        //    {
-        //        SQLCommand.CommandText = $"CREATE TABLE OrderGroups (" +
-        //                                                $"OrderGroupID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-        //                                                $"TableID INTEGER," +
-        //                                                $"AccountingID INTEGER);";
-        //        SQLCommand.ExecuteNonQuery();
-        //    }
-        //}
-
         internal void CreateAccountingTable()
         {
             using SQLiteConnection ConnectionToDatabase = SQLiteServices.CreateConnection();
@@ -187,7 +171,6 @@ namespace RestoranSystem.Services
             CreateTablesTable();
             CreateMenuTable();
             CreateMealTypesTable();
-            //CreateOrderGroupsTable();
             CreateAccountingTable();
             CreateClientsDataTable();
             CreateOrdersTable();
